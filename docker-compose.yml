@@ -1,7 +1,7 @@
 version: '3.2'
 
 services:
-  elasticsearch:
+  elasticsearch01:
     build:
       context: elasticsearch/
       args:
@@ -12,7 +12,7 @@ services:
         target: /usr/share/elasticsearch/config/elasticsearch.yml
         read_only: true
       - type: volume
-        source: elasticsearch
+        source: elasticsearch01
         target: /usr/share/elasticsearch/data
     ports:
       - "9200:9200"
@@ -26,7 +26,7 @@ services:
     networks:
       - elk
 
-  logstash:
+  logstash01:
     build:
       context: logstash/
       args:
@@ -51,9 +51,9 @@ services:
     networks:
       - elk
     depends_on:
-      - elasticsearch
+      - elasticsearch01
 
-  kibana:
+  kibana01:
     build:
       context: kibana/
       args:
@@ -68,11 +68,11 @@ services:
     networks:
       - elk
     depends_on:
-      - elasticsearch
+      - elasticsearch01
 
 networks:
   elk:
     driver: bridge
 
 volumes:
-  elasticsearch:
+  elasticsearch01:
